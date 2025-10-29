@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    @include('layouts._partials.nav')
     @include('layouts._partials.messages')
     @yield('content')
     

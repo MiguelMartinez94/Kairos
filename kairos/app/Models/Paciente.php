@@ -20,4 +20,9 @@ class Paciente extends Model
         'estado'
 
     ];
+
+    public function preferencia()
+    {
+        return $this->hasOne(PreferenciaPaciente::class, 'paciente_id');
+    }
 }

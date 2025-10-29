@@ -31,8 +31,8 @@ class FormularioInicialController extends Controller
      */
     public function store(Request $request, Paciente $paciente)
     {
-        Paciente::create($request->all());
-        return redirect()->route('preferencias.create', compact('paciente'));
+        $nuevoPaciente = Paciente::create($request->all());
+        return redirect()->route('preferencias.create', ['paciente' => $nuevoPaciente->id]);
         
     }
 
