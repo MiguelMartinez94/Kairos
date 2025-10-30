@@ -36,7 +36,9 @@ Route::resource('/pacientes', PacienteController::class);
 Route::get('/login/psicologos', [LoginController::class, 'loginPsicologos'])->name('psicologos.login');
 Route::get('/registrar/psicologos', [LoginController::class, 'registroPsicologos'])->name('psicologos.registro');
 
-Route::post('/registrar/psicologos/create', [LoginController::class, 'createRegistroPsicologo'])->name('psicologos.create.registro');
+Route::post('/registrar/psicologos', [LoginController::class, 'createRegistroPsicologo'])->name('psicologos.store');
 
+#Ruta para iniciar sesión psicologos
+Route::post('/login/psicologos', [LoginController::class, 'login'])->name('psicologos.login.attempt');
 
 require __DIR__.'/settings.php';

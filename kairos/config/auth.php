@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'psicologos' => [
+        'driver' => 'session',
+        'provider' => 'psicologos',
+        ],
     ],
 
     /*
@@ -63,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'psicologos' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Psicologo::class,
         ],
 
         // 'users' => [

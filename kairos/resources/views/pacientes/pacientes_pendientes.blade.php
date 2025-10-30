@@ -69,7 +69,7 @@
         </div>
             
         @empty
-            No hay pacientes activos...            
+            No hay pacientes pendientes...            
         @endforelse
     </div>
 

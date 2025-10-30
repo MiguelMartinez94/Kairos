@@ -8,7 +8,7 @@
 
             <h1>Registrarse</h1>
 
-            <form action="{{route('psicologos.create.registro')}}" method="POST">
+            <form action="{{route('psicologos.store')}}" method="POST">
                 @csrf
 
                 <label for="">Nombre completo</label>
@@ -18,7 +18,7 @@
                 <input type="text" name="correo" placeholder="Correo">
 
                 <label for="">Contraseña</label>
-                <input type="password" name="contrasena" placeholder="Contraseña">
+                <input type="password" name="password" placeholder="Contraseña">
 
                 
                 <input type="submit" value="Registrarse">

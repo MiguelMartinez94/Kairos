@@ -8,14 +8,14 @@
 
             <h1>Inicia sesión</h1>
 
-            <form action="#">
+            <form action="{{route('psicologos.login.attempt')}}" method="POST">
                 @csrf
 
                 <label for="">Correo</label>
                 <input type="text" name="correo" placeholder="Correo">
 
                 <label for="">Contraseña</label>
-                <input type="password" name="contrasena" placeholder="Contraseña">
+                <input type="password" name="password" placeholder="Contraseña">
 
                 <input type="submit" value="Iniciar sesión">
                 <a href="{{route('psicologos.registro')}}">Registrarse</a>

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('psicologos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('correo');
-            $table->string('contrasena');
+            $table->string('correo')->unique();
+            $table->string('password');
             $table->string('tipo')->default('admin');
             $table->string('estado')->default('1');
             $table->timestamps();
