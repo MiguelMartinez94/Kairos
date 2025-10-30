@@ -6,6 +6,7 @@ use Laravel\Fortify\Features;
 use App\Http\Controllers\FormularioInicialController;
 use App\Http\Controllers\PreferenciasController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\LoginController;
 
 
 #Formulario Paciente
@@ -28,6 +29,14 @@ Route::put('/pacientes/{paciente}/aceptar', [PacienteController::class, 'aceptar
 Route::put('/pacientes/{paciente}/eliminar}', [PacienteController::class, 'eliminar'])->name('pacientes.eliminar');
 
 Route::resource('/pacientes', PacienteController::class);
+
+
+#Login psicólogos
+
+Route::get('/login/psicologos', [LoginController::class, 'loginPsicologos'])->name('psicologos.login');
+Route::get('/registrar/psicologos', [LoginController::class, 'registroPsicologos'])->name('psicologos.registro');
+
+Route::post('/registrar/psicologos/create', [LoginController::class, 'createRegistroPsicologo'])->name('psicologos.create.registro');
 
 
 require __DIR__.'/settings.php';

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('correo');
             $table->string('contrasena');
-            $table->string('tipo');
-            $table->string('estado');
+            $table->string('tipo')->default('admin');
+            $table->string('estado')->default('1');
             $table->timestamps();
         });
     }
