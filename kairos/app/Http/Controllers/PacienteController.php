@@ -9,15 +9,37 @@ use App\Models\PreferenciaPaciente;
 class PacienteController extends Controller
 {
 
-    
+    public function index()
+    {
+        // Redirigir al listado de pendientes
+        return redirect()->route('pacientes.pendientes');
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexPendientes()
     {
 
-        $pacientes = Paciente::with('preferencia')->get();
+        $pacientes = Paciente::with('preferencia')->where('estado', 0)->get();
         return view('pacientes.pacientes_pendientes', compact('pacientes'));
+    }
+
+    public function indexActivos()
+    {
+
+        $pacientes = Paciente::with('preferencia')->where('estado', 1)->get();
+        return view('pacientes.pacientes_activos', compact('pacientes'));
+    }
+
+    public function aceptar($id)
+    {
+        $paciente = Paciente::findOrFail($id);
+
+        $paciente->estado = 1;
+
+        $paciente->save();
+
+        return redirect()->route('pacientes.pendientes');
     }
 
     /**
@@ -55,16 +77,28 @@ class PacienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Paciente $paciente)
     {
-        //
+        $paciente->update($request->all());
+        return redirect()->route('pacientes.activos');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        
+    }
+
+    public function eliminar($id)
+    {
+        $paciente = Paciente::findOrFail($id);
+
+        $paciente->estado = 2;
+
+        $paciente->save();
+
+        return redirect()->route('pacientes.activos');
     }
 }

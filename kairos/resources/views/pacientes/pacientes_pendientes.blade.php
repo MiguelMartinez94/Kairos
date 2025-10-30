@@ -6,8 +6,8 @@
 
 
     <ul>
-        <li><a href="{{view('pacientes.pacientes_pendientes')}}">Pacientes Pendientes</a></li>
-        <li><a href="{{view('pacientes.pacientes_activos')}}">Pacientes Activos</a></li>
+        <li><a href="{{route('pacientes.pendientes')}}">Pacientes Pendientes</a></li>
+        <li><a href="{{route('pacientes.activos')}}">Pacientes Activos</a></li>
     </ul>
 
 
@@ -26,7 +26,7 @@
 
             <dialog id="modal-{{$paciente->id}}">
                 
-                <div>s
+                <div style="border: solid 1px">
 
                     <h2>Datos personales</h2>
 
@@ -57,12 +57,19 @@
                     </div>
 
                     <button type="button" class="closeModalBtn">Mantener Pendiente</button>
+                    <form action="{{route('pacientes.aceptar', $paciente->id)}}" method="POST">
+                        @method('PUT')
+                        @csrf
+
+
+                        <input type="submit" value="Aceptar paciente">
+                    </form>
                 </div>
             </dialog>
         </div>
             
         @empty
-            Aún no hay pacientes activos...            
+            No hay pacientes activos...            
         @endforelse
     </div>
 

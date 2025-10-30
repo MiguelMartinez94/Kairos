@@ -20,7 +20,7 @@
             <option value="" selected>Selecciona tu género</option>
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
-            <option value="Otro"></option>
+            
         </select>
 
         <label for="">Teléfono</label>

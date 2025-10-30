@@ -21,6 +21,12 @@ Route::post('/preferencias/{paciente}/store', [PreferenciasController::class, 's
 Route::get('/preferencias/mensaje', [PreferenciasController::class, 'show'])->name('preferencias.mensaje');
 
 #Sección pacientes
+
+Route::get('/pacientes/pendientes', [PacienteController::class, 'indexPendientes'])->name('pacientes.pendientes');
+Route::get('/pacientes/activos', [PacienteController::class, 'indexActivos'])->name('pacientes.activos');
+Route::put('/pacientes/{paciente}/aceptar', [PacienteController::class, 'aceptar'])->name('pacientes.aceptar');
+Route::put('/pacientes/{paciente}/eliminar}', [PacienteController::class, 'eliminar'])->name('pacientes.eliminar');
+
 Route::resource('/pacientes', PacienteController::class);
 
 
