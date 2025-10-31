@@ -13,7 +13,8 @@ use App\Http\Controllers\LoginController;
 Route::get('/', [FormularioInicialController::class, 'index'])->name('formulario.index');
 Route::post('/formulario/store', [FormularioInicialController::class, 'store'])->name('formulario.store');
 
-
+#Ruta para vista de inicio para psicóloga
+Route::view('/inicio', 'inicio.index')->name('psicologos.inicio');
 
 #Preferencias Paciente
 
@@ -40,5 +41,10 @@ Route::post('/registrar/psicologos', [LoginController::class, 'createRegistroPsi
 
 #Ruta para iniciar sesión psicologos
 Route::post('/login/psicologos', [LoginController::class, 'login'])->name('psicologos.login.attempt');
+
+
+#Rutas para mostrar agenda agenda
+Route::view('/agenda', 'agenda.index')->name('psicologos.agenda');
+
 
 require __DIR__.'/settings.php';
