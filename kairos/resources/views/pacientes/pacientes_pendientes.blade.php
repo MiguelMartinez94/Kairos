@@ -4,115 +4,135 @@
 
     @include('layouts._partials.nav')
 
+    <div class="pacientes-container">
+        <ul class="tabs-nav">
+            <li><a href="{{route('pacientes.pendientes')}}" class="active">Pacientes Pendientes</a></li>
+            <li><a href="{{route('pacientes.activos')}}">Pacientes Activos</a></li>
+        </ul>
 
-    <ul>
-        <li><a href="{{route('pacientes.pendientes')}}">Pacientes Pendientes</a></li>
-        <li><a href="{{route('pacientes.activos')}}">Pacientes Activos</a></li>
-    </ul>
+        <div class="pacientes-grid">
+            @forelse ($pacientes as $paciente)
 
+            <div class="paciente-card pendiente">
+                <div class="paciente-header">
+                    <div class="paciente-imagen">
+                        {{substr($paciente->nombre, 0, 1)}}
+                    </div>
+                    <div class="paciente-info">
+                        <p>{{$paciente->nombre}} <span class="badge-pendiente">Pendiente</span></p>
+                        <p>Edad: {{$paciente->edad}}</p>
+                    </div>
+                </div>
 
-    <div style="border: solid 1px">
-        @forelse ($pacientes as $paciente)
+                <button type="button" class="openModalBtn btn-mostrar" data-modal-id="modal-{{$paciente->id}}">
+                    Mostrar Información
+                </button>
 
-        <div style="border: solid 1px">
+                <dialog id="modal-{{$paciente->id}}" class="modal-paciente modal-pendiente">
+                    
+                    <div class="modal-content">
 
-            <img src="#" alt="Imagen genérica de paciente">
-            <p>Nombre: {{$paciente->nombre}}</p>
-            <p>Edad: {{$paciente->edad}}</p>
+                        <div class="modal-header">
+                            <h2>{{$paciente->nombre}}</h2>
+                        </div>
 
-            <button type="button" class="openModalBtn" data-modal-id="modal-{{$paciente->id}}">
-                Mostrar Información
-            </button>
+                        <div class="datos-section">
+                            <h2>Datos personales</h2>
 
-            <dialog id="modal-{{$paciente->id}}">
-                
-                <div style="border: solid 1px">
+                            <div class="datos-grid">
+                                <div class="dato-item">
+                                    <label>Nombre completo</label>
+                                    <p>{{$paciente->nombre}}</p>
+                                </div>
 
-                    <h2>Datos personales</h2>
+                                <div class="dato-item">
+                                    <label>Edad</label>
+                                    <p>{{$paciente->edad}}</p>
+                                </div>
 
-                    <div>
+                                <div class="dato-item">
+                                    <label>Género</label>
+                                    <p>{{$paciente->genero}}</p>
+                                </div>
 
-                        <label for="">Nombre completo</label>
-                        <p>{{$paciente->nombre}}</p>
+                                <div class="dato-item">
+                                    <label>Número de teléfono</label>
+                                    <p>{{$paciente->telefono}}</p>
+                                </div>
 
-                        <label for="">Edad</label>
-                        <p>{{$paciente->edad}}</p>
+                                <div class="dato-item">
+                                    <label>Correo electrónico</label>
+                                    <p>{{$paciente->correo}}</p>
+                                </div>
+                            </div>
+                        </div>
 
-                        <label for="">Género</label>
-                        <p>{{$paciente->genero}}</p>
+                        <div class="preferencias-info">
+                            <h3>Preferencias de horario</h3>
+                            <div class="preferencias-grid">
+                                <div class="preferencia-item">
+                                    <label>Día solicitado</label>
+                                    <p>{{$paciente->preferencia->dia_preferido}}</p>
+                                </div>
 
-                        <label for="">Día solicitado</label>
-                        <p>{{$paciente->preferencia->dia_preferido}}</p>
+                                <div class="preferencia-item">
+                                    <label>Horario solicitado</label>
+                                    <p>{{$paciente->preferencia->horario_preferido}}</p>
+                                </div>
+                            </div>
+                        </div>
 
-                        <label for="">Horario solicitado</label>
-                        <p>{{$paciente->preferencia->horario_preferido}}</p>
-
-                        <label for="">Número de teléfono</label>
-                        <p>{{$paciente->telefono}}</p>
-
-                        <label for="">Correo electrónico</label>
-                        <p>{{$paciente->correo}}</p>
-
+                        <div class="modal-actions">
+                            <button type="button" class="closeModalBtn btn-mantener">Mantener Pendiente</button>
+                            <form action="{{route('pacientes.aceptar', $paciente->id)}}" method="POST">
+                                @method('PUT')
+                                @csrf
+                                <input type="submit" value="Aceptar paciente" class="btn-aceptar">
+                            </form>
+                        </div>
 
                     </div>
-
-                    <button type="button" class="closeModalBtn">Mantener Pendiente</button>
-                    <form action="{{route('pacientes.aceptar', $paciente->id)}}" method="POST">
-                        @method('PUT')
-                        @csrf
-
-
-                        <input type="submit" value="Aceptar paciente">
-                    </form>
-                </div>
-            </dialog>
+                </dialog>
+            </div>
+                
+            @empty
+            <div class="empty-state">
+                <p>No hay pacientes pendientes...</p>
+            </div>
+            @endforelse
         </div>
-            
-        @empty
-            No hay pacientes pendientes...            
-        @endforelse
     </div>
 
-
     <script>
-    // 1. Selecciona TODOS los botones que tienen la clase 'openModalBtn'
-    const openButtons = document.querySelectorAll('.openModalBtn');
+        const openButtons = document.querySelectorAll('.openModalBtn');
 
-    // 2. Selecciona TODOS los botones que tienen la clase 'closeModalBtn'
-    const closeButtons = document.querySelectorAll('.closeModalBtn');
+        const closeButtons = document.querySelectorAll('.closeModalBtn');
 
-    // 3. Añade un evento a CADA botón de "Abrir"
-    openButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            
-            // Prevenimos que el <form> se envíe (por si acaso)
-            event.preventDefault(); 
-            
-            // Obtenemos el ID del modal desde el atributo 'data-modal-id' del botón
-            const modalId = button.dataset.modalId;
-            
-            // Encontramos ese modal específico por su ID único
-            const modal = document.getElementById(modalId);
-            
-            if (modal) {
-                modal.showModal(); // ¡Y lo abrimos!
-            }
+        openButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                
+                event.preventDefault(); 
+                
+                const modalId = button.dataset.modalId;
+                
+                const modal = document.getElementById(modalId);
+                
+                if (modal) {
+                    modal.showModal();
+                }
+            });
         });
-    });
 
-    // 4. Añade un evento a CADA botón de "Cerrar"
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            
-            // Encontramos el <dialog> más cercano al botón que se presionó
-            const modal = button.closest('dialog');
-            
-            if (modal) {
-                modal.close(); // ¡Y lo cerramos!
-            }
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                
+                const modal = button.closest('dialog');
+                
+                if (modal) {
+                    modal.close(); 
+                }
+            });
         });
-    });
-</script>
-
+    </script>
     
 @endsection

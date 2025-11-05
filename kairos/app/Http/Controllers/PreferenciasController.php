@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PreferenciaPaciente;
 use App\Models\Paciente;
+use App\Http\Requests\PreferenciasRequest;
 
 class PreferenciasController extends Controller
 {
@@ -17,7 +18,7 @@ class PreferenciasController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(PreferenciasRequest $request)
     {
         PreferenciaPaciente::create($request->all());
         return redirect()->route('preferencias.mensaje');

@@ -5,115 +5,179 @@
 
 @include('layouts._partials.nav')
 
+<div class="pacientes-container">
 
-    <ul>
+    <ul class="tabs-nav">
         <li><a href="{{route('pacientes.pendientes')}}">Pacientes Pendientes</a></li>
-        <li><a href="{{route('pacientes.activos')}}">Pacientes Activos</a></li>
+        <li><a href="{{route('pacientes.activos')}}" class="active">Pacientes Activos</a></li>
     </ul>
 
 
-    <div style="border: solid 1px">
+    <div class="pacientes-grid">
+
         @forelse ($pacientes as $paciente)
 
-        <div style="border: solid 1px">
+        <div class="paciente-card">
 
-            <img src="#" alt="Imagen genérica de paciente">
-            <p>Nombre: {{$paciente->nombre}}</p>
-            <p>Edad: {{$paciente->edad}}</p>
+            <div class="paciente-header">
 
-            <button type="button" class="openModalBtn" data-modal-id="modal-{{$paciente->id}}">
-                Mostrar Información
-            </button>
+                <div class="paciente-imagen">
 
-            <dialog id="modal-{{$paciente->id}}">
+                    {{substr($paciente->nombre, 0, 1)}}
+
+                </div>
+
+                <div class="paciente-info">
+
+                    <p>{{$paciente->nombre}}</p>
+                    <p>Edad: {{$paciente->edad}}</p>
+
+                </div>
+            </div>
+
+            <button type="button" class="openModalBtn btn-mostrar" data-modal-id="modal-{{$paciente->id}}">Mostrar Información</button>
+
+            <dialog id="modal-{{$paciente->id}}" class="modal-paciente">
                 
-                <div style="border: solid 1px">
+                <div class="modal-content">
 
-                    <h2>Datos personales</h2>
+                    <div class="modal-header">
 
-                    <div style="border: solid 1px">
-
-                        <label for="">Nombre completo</label>
-                        <p>{{$paciente->nombre}}</p>
-
-                        <label for="">Edad</label>
-                        <p>{{$paciente->edad}}</p>
-
-                        <label for="">Género</label>
-                        <p>{{$paciente->genero}}</p>
-
-                        <label for="">Número de teléfono</label>
-                        <p>{{$paciente->telefono}}</p>
-
-                        <label for="">Correo electrónico</label>
-                        <p>{{$paciente->correo}}</p>
-
+                        <h2>{{$paciente->nombre}}</h2>
 
                     </div>
-
-                    <div style="border: 1px">
                     
-                        <h1>Datos clínicos</h1>
-                            <div style="border: 1px">
+                    <div class="datos-section">
 
+                        <h2>Datos personales</h2>
+
+                        <div class="datos-grid">
+
+                            <div class="dato-item">
+
+                                <label>Nombre completo</label>
+                                <p>{{$paciente->nombre}}</p>
                                 
-
                             </div>
 
-                            <h1>Observaciones</h1>
-
-                            <div style="border: solid 1px">
-
-                                
-
+                            <div class="dato-item">
+                                <label>Edad</label>
+                                <p>{{$paciente->edad}}</p>
                             </div>
+
+                            <div class="dato-item">
+                                <label>Género</label>
+                                <p>{{$paciente->genero}}</p>
+                            </div>
+
+                            <div class="dato-item">
+                                <label>Número de teléfono</label>
+                                <p>{{$paciente->telefono}}</p>
+                            </div>
+
+                            <div class="dato-item">
+                                <label>Correo electrónico</label>
+                                <p>{{$paciente->correo}}</p>
+                            </div>
+
+                        </div>
 
                     </div>
 
-                    <button type="button" class="closeModalBtn">Cerrar</button>
-                    <button type="button" class="openEditModalBtn" data-edit-modal-id="editModal-{{$paciente->id}}">Modificar paciente</button>
-                    <form action="{{route('pacientes.eliminar', $paciente->id)}}" method="POST">
-                        @method('PUT')
-                        @csrf
-                        <input type="submit" value="Eliminar paciente">
-                    </form>
+                    <div class="datos-section">
+
+                        <h2>Datos clínicos</h2>
+
+                        <div class="datos-grid">
+
+                            <div class="dato-item">
+                                <label>Información clínica</label>
+                                <p>Pendiente de agregar...</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="datos-section">
+
+                        <h2>Observaciones</h2>
+
+                        <div class="datos-grid">
+
+                            <div class="dato-item">
+                                <label>Notas</label>
+                                <p>Sin observaciones registradas</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="modal-actions">
+
+                        <button type="button" class="closeModalBtn btn-cerrar-modal">Cerrar</button>
+                        <button type="button" class="openEditModalBtn btn-modificar" data-edit-modal-id="editModal-{{$paciente->id}}">Modificar</button>
+                        <form action="{{route('pacientes.eliminar', $paciente->id)}}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <input type="submit" value="Eliminar paciente" class="btn-eliminar">
+                        </form>
+
+                    </div>
 
                 </div>
 
             </dialog>
 
-            <dialog  id="editModal-{{$paciente->id}}" >
-
-                <h2>Editar paciente: {{$paciente->nombre}}</h2>
-
-                <div>
+            <dialog id="editModal-{{$paciente->id}}" class="modal-paciente modal-edit">
+    
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <h2>Editar paciente: {{$paciente->nombre}}</h2>
+                    </div>
 
                     <form action="{{route('pacientes.update', $paciente->id)}}" method="POST">
+
                         @csrf
                         @method('PUT')
 
-                        <label for="">Nombre completo</label>
-                        <input type="text" placeholder="Ingresa tu nombre completo" name="nombre" value="{{$paciente->nombre}}">
+                        <div class="form-group">
+                            <label for="">Nombre completo</label>
+                            <input type="text" placeholder="Ingresa tu nombre completo" name="nombre" value="{{$paciente->nombre}}">
+                        </div>
 
-                        <label for="">Edad</label>
-                        <input type="number" name="edad" value="{{$paciente->edad}}">
+                        <div class="form-group">
+                            <label for="">Edad</label>
+                            <input type="number" name="edad" value="{{$paciente->edad}}">
+                        </div>
 
-                        <label for="">Género</label>
-                        <select name="genero" >
-                            <option value="" selected>Selecciona tu género</option>
-                            <option value="Masculino" @selected($paciente->genero == 'Masculino')>Masculino</option>
-                            <option value="Femenino" @selected($paciente->genero == 'Femenino')>Femenino</option>
-                        </select>
+                        <div class="form-group">
 
-                        <label for="">Teléfono</label>
-                        <input type="text" name="telefono" value="{{$paciente->telefono}}">
+                            <label for="">Género</label>
+                            <select name="genero">
+                                <option value="" selected>Selecciona tu género</option>
+                                <option value="Masculino" @selected($paciente->genero == 'Masculino')>Masculino</option>
+                                <option value="Femenino" @selected($paciente->genero == 'Femenino')>Femenino</option>
+                            </select>
 
-                        <label for="">correo</label>
-                        <input type="email" name="correo" value="{{$paciente->correo}}">
+                        </div>
 
-                        <input type="submit" value="Guardar cambios">
-                        <button type="button" class="closeEditModalBtn">Cancelar</button>
+                        <div class="form-group">
+                            <label for="">Teléfono</label>
+                            <input type="text" name="telefono" value="{{$paciente->telefono}}">
+                        </div>
 
+                        <div class="form-group">
+                            <label for="">Correo</label>
+                            <input type="email" name="correo" value="{{$paciente->correo}}">
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" class="closeEditModalBtn btn-cerrar-modal">Cancelar</button>
+                            <button type="submit" class="btn-modificar">Guardar cambios</button>
+                        </div>
 
                     </form>
 
@@ -123,21 +187,26 @@
         </div>
             
         @empty
-            No hay pacientes activos...            
+
+            <div class="empty-state">
+                <p>No hay pacientes activos...</p>
+            </div>         
+
         @endforelse
     </div>
+</div>
 
 
-    <script>
-    // Botones para abrir modal principal
+<script>
+    
     const openButtons = document.querySelectorAll('.openModalBtn');
     const closeButtons = document.querySelectorAll('.closeModalBtn');
 
-    // Botones para abrir modal de edición
+    
     const openEditButtons = document.querySelectorAll('.openEditModalBtn');
     const closeEditButtons = document.querySelectorAll('.closeEditModalBtn');
 
-    // Abrir modal principal
+    
     openButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault(); 
@@ -150,7 +219,6 @@
         });
     });
 
-    // Cerrar modal principal
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const modal = button.closest('dialog');
@@ -160,7 +228,6 @@
         });
     });
 
-    // Abrir modal de edición (DENTRO del modal principal)
     openEditButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
@@ -173,7 +240,6 @@
         });
     });
 
-    // Cerrar modal de edición
     closeEditButtons.forEach(button => {
         button.addEventListener('click', () => {
             const editModal = button.closest('dialog');
@@ -182,6 +248,6 @@
             }
         });
     });
-    </script>
+</script>
     
 @endsection

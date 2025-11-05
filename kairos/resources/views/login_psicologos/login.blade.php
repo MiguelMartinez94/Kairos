@@ -2,11 +2,21 @@
 
 @section('content')
 
-    <div style="border: solid 1px">
+    <div class="login-container">
 
-        <div style="border: solid 1px">
+        <div class="login-card">
 
             <h1>Inicia sesión</h1>
+
+            @if ($errors->any())
+
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+                
+            @endif
 
             <form action="{{route('psicologos.login.attempt')}}" method="POST">
                 @csrf

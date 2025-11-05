@@ -11,12 +11,9 @@ class PacienteController extends Controller
 
     public function index()
     {
-        // Redirigir al listado de pendientes
         return redirect()->route('pacientes.pendientes');
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function indexPendientes()
     {
 
@@ -39,57 +36,26 @@ class PacienteController extends Controller
 
         $paciente->save();
 
-        return redirect()->route('pacientes.pendientes');
+        return redirect()->route('pacientes.pendientes')->with('success', 'Paciente aceptado');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Paciente $paciente)
     {
         return view('pacientes.pacientes_pendientes', compact('paciente'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Paciente $paciente)
+    public function update(PacienteRequest $request, Paciente $paciente)
     {
         $paciente->update($request->all());
-        return redirect()->route('pacientes.activos');
+        return redirect()->route('pacientes.activos')->with('success', 'Paciente modificado');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
-    {
-        
-    }
 
     public function eliminar($id)
     {
@@ -99,6 +65,6 @@ class PacienteController extends Controller
 
         $paciente->save();
 
-        return redirect()->route('pacientes.activos');
+        return redirect()->route('pacientes.activos')->with('danger', 'Paciente eliminado');
     }
 }

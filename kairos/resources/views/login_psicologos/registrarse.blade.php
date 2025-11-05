@@ -2,11 +2,21 @@
 
 @section('content')
 
-    <div style="border: solid 1px">
+    <div class="registro-container">
 
-        <div style="border: solid 1px">
+        <div class="registro-card">
 
             <h1>Registrarse</h1>
+
+            @if ($errors->any())
+
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+                
+            @endif
 
             <form action="{{route('psicologos.store')}}" method="POST">
                 @csrf

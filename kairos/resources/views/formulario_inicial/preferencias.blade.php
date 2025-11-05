@@ -3,10 +3,23 @@
 @section('content')
 
 
-<h1>Paciente: {{$paciente->nombre}}</h1>
+<div class="preferencias-container">
+    <div class="preferencias-card">
+        <h1>Paciente: {{$paciente->nombre}}</h1>
+
+        @if ($errors->any())
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>
+            
+        @endif
     
     <form action="{{route('preferencias.store', ['paciente' => $paciente->id])}}" method="POST">
 
+        <div class="form-group">
         @csrf
 
         <input type="hidden" name="paciente_id" value="{{$paciente->id}}">
@@ -16,7 +29,7 @@
         
         <label for="">Día preferido</label>
         <select name="dia_preferido" id="">
-            <option value="lunes">Lunee</option>
+            <option value="lunes">Lunes</option>
             <option value="martes">Martes</option>
             <option value="miercoles">Miércoles</option>
             <option value="jueves">Jueves</option>
@@ -40,6 +53,8 @@
         </select>
 
         <input type="submit" value="Agendar Cita">
-    </form>
-
+    </div>
+        </form>
+    </div>
+</div>
 @endsection

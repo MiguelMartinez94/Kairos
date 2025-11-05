@@ -1,19 +1,14 @@
 @if ($message = Session::get('success'))
     
-    <div style="background: green; color: white">
-
+    <div class="message-success">
         <p>{{$message}}</p>
-
     </div>
 
 @endif
 
 @if ($message = Session::get('danger'))
     
-    <div style="background: red; color: white">
-
+    <div class="message-danger">
         <p>{{$message}}</p>
-
     </div>
-
 @endif

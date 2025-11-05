@@ -7,6 +7,7 @@ use App\Models\Psicologo;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -20,7 +21,7 @@ class LoginController extends Controller
         return view('login_psicologos.registrarse');
     }
 
-    public function createRegistroPsicologo(Request $request)
+    public function createRegistroPsicologo(LoginRequest $request)
     {
         $psicologo = Psicologo::create([
 
@@ -46,7 +47,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             
-            return redirect()->intended(route('pacientes.activos'))->with('success', '¡Bienvenido de nuevo!');
+            return redirect()->intended(route('pacientes.activos'))->with('success', '¡Bienvenido!');
         }
 
         return redirect()->route('psicologos.login')->with('danger', 'No se pudo iniciar sesión');

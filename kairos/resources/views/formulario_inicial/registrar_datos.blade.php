@@ -3,15 +3,16 @@
 @section('content')
     
 
-    <div style="border: solid 1px">
+    <div class="hero-section">
+
+    <div class="hero-content">
 
         <h1>Terapia psicológica</h1>
 
-        <div style="border: solid 1px">
+        <div class="psicologia-info">
 
+            <div class="info-text">
 
-            <div style="border: solid 1px">
-                
                 <h2>Psic. Joanna Danaé López Ochoa</h2>
 
                 <h3>Formación académica</h3>
@@ -30,27 +31,37 @@
                 <h3>¿Cómo será la primera sesión?</h3>
             </div>
 
-            <div style="border: solid 1px">
+            <div class="info-imagen">
 
                 <img src="#" alt="Imagen de la psicóloga">
 
             </div>
 
-            <a href="#registro">
-                <button>Agendar Cita</button>
-            </a>
         </div>
+
+        <a href="#registro" class="cta-button">Agendar Cita</a>
 
     </div>
 
-<section id="registro">
+</div>
 
-    <div style="border: solid 1px">
+<section id="registro" class="registro-section">
+    <div class="registro-wrapper">
+        <div class="registro-content">
+            <h1>Registra tus datos</h1>
 
-    <h1>Registra tus datos</h1>
+            @if ($errors->any())
 
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+                
+            @endif
 
-        <div style="border: solid 1px">
+            
+            <div class="form-container">
 
     <form action="{{route('formulario.store')}}" method="POST">
 
@@ -79,7 +90,7 @@
         <input type="submit" value="Seleccionar día y horario">
     </form>
         </div>
+        </div>
     </div>
-
 </section>
 @endsection
