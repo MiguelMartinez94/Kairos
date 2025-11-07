@@ -20,8 +20,19 @@ class PreferenciasController extends Controller
 
     public function store(PreferenciasRequest $request)
     {
-        PreferenciaPaciente::create($request->all());
-        return redirect()->route('preferencias.mensaje');
+
+        try {
+
+            PreferenciaPaciente::create($request->all());
+            return redirect()->route('preferencias.mensaje');
+            
+        } catch (\Exception $e) {
+            
+            return back()->with('danger', 'Ocurrió un error inesperado al registrar sus preferencias. Intente de nuevo');
+
+        }
+
+        
     }
 
     public function show()

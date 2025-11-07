@@ -21,8 +21,18 @@ class FormularioInicialController extends Controller
 
     public function store(PacienteRequest $request, Paciente $paciente)
     {
-        $nuevoPaciente = Paciente::create($request->all());
-        return redirect()->route('preferencias.create', ['paciente' => $nuevoPaciente->id]);
+
+        try {
+
+            $nuevoPaciente = Paciente::create($request->all());
+            return redirect()->route('preferencias.create', ['paciente' => $nuevoPaciente->id]);
+
+        } catch (\Exception $e) {
+
+            return back()->with('danger', 'Ocurrió un error inesperado. Intente de nuevo');
+            
+        }
+        
         
     }
 
