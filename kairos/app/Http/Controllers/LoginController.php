@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     public function createRegistroPsicologo(LoginRequest $request)
     {
-        $psicologo = Psicologo::create([
+        Psicologo::create([
 
             'nombre' => $request->nombre,
             'correo' => $request->correo,

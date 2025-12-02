@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('dia_semana');
             $table->time('horario_inicio');
             $table->time('horario_fin');
+            $table->string('estado')->default('activo');
             $table->timestamps();
         });
     }

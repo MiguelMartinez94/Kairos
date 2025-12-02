@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Paciente;
+use App\Models\Clinico;
+use App\Models\Sesion;
+use APP\Models\Psicologo;
 use App\Models\PreferenciaPaciente;
 use App\Http\Requests\PacienteRequest;
+use Illuminate\Container\Attributes\Auth;
+
 
 class PacienteController extends Controller
 {
 
     public function index()
     {
+
         return redirect()->route('pacientes.pendientes');
     }
 
@@ -40,7 +46,10 @@ class PacienteController extends Controller
         try {
             
         $pacientes = Paciente::with('preferencia')->where('estado', 1)->get();
-        return view('pacientes.pacientes_activos', compact('pacientes'));
+        $clinicos = Clinico::all();
+        $psicologos = Psicologo::all();
+        $sesiones = Sesion::all();
+        return view('pacientes.pacientes_activos', compact('pacientes', 'clinicos', 'psicologos', 'sesiones'));
 
         } catch (\Exception $e) {
             
@@ -79,10 +88,7 @@ class PacienteController extends Controller
         return view('pacientes.pacientes_pendientes', compact('paciente'));
     }
 
-    public function edit(string $id)
-    {
-        //
-    }
+
 
     public function update(PacienteRequest $request, Paciente $paciente)
     {
@@ -92,7 +98,7 @@ class PacienteController extends Controller
             $paciente->update($request->all());
             return redirect()->route('pacientes.activos')->with('success', 'Paciente modificado');
             
-        } catch (\Exection $e) {
+        } catch (\Exception $e) {
             
             return back()->with('danger', 'Ocurrió un error al actualizar los datos del paciente. Intente de nuevo');
 
@@ -115,7 +121,7 @@ class PacienteController extends Controller
 
             return redirect()->route('pacientes.activos')->with('danger', 'Paciente eliminado');
                 
-        } catch (\Exection $e) {
+        } catch (\Exception $e) {
             
             return back()->with('danger', 'Ocurrió un error inesperado. Intente de nuevo');
 
@@ -124,4 +130,28 @@ class PacienteController extends Controller
 
         
     }
+
+
+    public function storeClinicos(Request $request){
+
+        Clinico::create($request->all());
+        return redirect()->route('pacientes.activos');
+
+    }
+
+    public function sesionStore(Request $request)
+    {
+        Sesion::create([
+
+            'psicologo_id' => auth('psicologos')->id(),
+            'paciente_id' => $request -> paciente_id,
+            'fecha_sesion' => $request-> fecha_sesion,
+            'duracion' => $request-> duracion,
+            'notas' => $request->notas
+
+
+        ]);
+        return redirect()->route('pacientes.activos');
+    }
+    
 }
