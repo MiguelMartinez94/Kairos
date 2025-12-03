@@ -14,7 +14,8 @@ class Agenda extends Model
         'psicolgo_id',
         'dia_semana',
         'horario_inicio',
-        'horario_fin'
+        'horario_fin',
+        'estado'
     ];
 
 }

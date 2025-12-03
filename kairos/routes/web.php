@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendasController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -7,6 +8,7 @@ use App\Http\Controllers\FormularioInicialController;
 use App\Http\Controllers\PreferenciasController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\InicioController;
 
 
 #Formulario Paciente
@@ -41,10 +43,19 @@ Route::resource('/pacientes', PacienteController::class);
 
 
 #Ruta para vista de inicio para psicóloga
-Route::view('/inicio', 'inicio.index')->name('psicologos.inicio');
+Route::get('/inicio', [InicioController::class, 'index'])->name('psicologos.inicio');
+
+
+#Rutas de agenda
 
 #Rutas para mostrar agenda agenda
-Route::view('/agenda', 'agenda.index')->name('psicologos.agenda');
+Route::get('/agenda', [AgendasController::class, 'index'])->name('psicologos.agenda');
+Route::put('agenda/update/{agenda}', [AgendasController::class, 'update'])->name('agenda.update');
+
+
+#Rutas para calendario
+Route::get('/api/mis-citas', [InicioController::class, 'obtenerCitasJson'])->name('api.mis_citas');
+
 
 });
 

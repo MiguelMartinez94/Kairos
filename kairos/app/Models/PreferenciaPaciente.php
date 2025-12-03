@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PreferenciaPaciente extends Model
 {
@@ -17,5 +18,10 @@ class PreferenciaPaciente extends Model
         'forma_pago',
         'tipo_sesion'
     ];
+
+    public function paciente(): BelongsTo //
+    {
+        return $this->belongsTo(Paciente::class); //
+    }
 
 }
