@@ -4,6 +4,9 @@
 
 @include('layouts._partials.nav')
 
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
 <div class="agenda-container">
     
     <div class="agenda-header">
@@ -14,17 +17,15 @@
         </button>
     </div>
     
+    
     <dialog id="myModal" class="modal-horarios">
         <div class="modal-content">
-            
             <div class="modal-header">
                 <h2>Configurar Horarios de Atención</h2>
             </div>
 
             <div class="horarios-config-wrapper">
-                
                 @foreach ($agendas as $agenda)
-
                     <div class="dia-config-card">
                         <form action="{{route('agenda.update', $agenda)}}" method="POST" class="form-horario">
                             @method('PUT')
@@ -63,15 +64,12 @@
                             </div>
                         </form>
                     </div>
-                        
                 @endforeach
-
             </div>
 
             <div class="modal-footer">
                 <button type="button" id="closeModalBtn" class="btn-secundario">Cerrar</button>
             </div>
-                            
         </div>
     </dialog>
     
@@ -80,10 +78,10 @@
         <div class="agenda-main">
             <div class="calendario-card">
                 <h2 class="card-title">Calendario</h2>
-                <div class="calendario-placeholder">
-                    <div class="placeholder-icon">📅</div>
-                    <p>Aquí se mostrará el calendario interactivo</p>
-                </div>
+                
+                
+                <div id="calendar" style="min-height: 600px; background: white; padding: 10px; border-radius: 8px;"></div>
+
             </div>
         </div>
         
@@ -94,7 +92,6 @@
                 
                 <div class="sesiones-list">
                     @forelse ($pacientes as $paciente)
-                    
                         <div class="sesion-preview-card">
                             <div class="paciente-avatar-small">
                                 {{substr($paciente->nombre, 0, 1)}}
@@ -102,30 +99,28 @@
                             <div class="sesion-info-preview">
                                 <p class="paciente-nombre-small">{{$paciente->nombre}}</p>
                                 
-                                @foreach ($preferencias as $preferencia)
-                                    <p class="sesion-dia">{{$preferencia->dia_preferido}}</p>
-                                    <p class="sesion-hora">{{$preferencia->horario_preferido}}</p>
-                                @endforeach
+                                @php
+                                    $miPreferencia = $preferencias->where('paciente_id', $paciente->id)->first();
+                                @endphp
+
+                                @if($miPreferencia)
+                                    <p>Día: {{ $miPreferencia->dia_preferido }}</p>
+                                    <p>Hora: {{ $miPreferencia->horario_preferido }}</p>
+                                @endif
                             </div>
                         </div>
-
                     @empty
-
                         <div class="sesiones-empty-small">
                             <p>No hay sesiones próximas</p>
                         </div>
-                        
                     @endforelse
                 </div>
             </div>
             
             <div class="sidebar-card">
                 <h3 class="sidebar-title">Horarios de Atención</h3>
-                
                 <div class="horarios-list">
-
                     @foreach ($agendas as $agenda)
-                        
                         <div class="horario-item {{$agenda->estado == 1 ? 'activo' : 'inactivo'}}">
                             <div class="horario-dia">
                                 <span class="dia-badge">{{substr($agenda->dia_semana, 0, 3)}}</span>
@@ -141,9 +136,7 @@
                                 @endif
                             </div>
                         </div>
-                                            
                     @endforeach
-
                 </div>
             </div>
             
@@ -152,6 +145,7 @@
 </div>
 
 <script>
+    
     const modal = document.getElementById('myModal');
     const openBtn = document.getElementById('openModalBtn');
     const closeBtn = document.getElementById('closeModalBtn');
@@ -166,6 +160,45 @@
 
     openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
+
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek', 
+            locale: 'es', 
+            
+            firstDay: 1,             
+            slotMinTime: '07:00:00', 
+            slotMaxTime: '21:00:00', 
+            allDaySlot: false,       
+            height: 'auto',          
+            expandRows: true,
+
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+
+            
+            events: "{{ route('api.mis_citas') }}",
+
+            
+            eventClick: function(info) {
+                alert('Paciente: ' + info.event.title);
+            },
+            
+            
+            eventMouseEnter: function(info) {
+                info.el.style.cursor = 'pointer';
+            }
+        });
+
+        calendar.render();
+    });
 </script>
     
 @endsection

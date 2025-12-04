@@ -83,11 +83,11 @@
                         </div>
 
                         <div class="modal-actions">
-                            <button type="button" class="closeModalBtn btn-mantener">Mantener Pendiente</button>
+                            <button type="button" class="closeModalBtn btn-secundario">Mantener Pendiente</button>
                             <form action="{{route('pacientes.aceptar', $paciente->id)}}" method="POST">
                                 @method('PUT')
                                 @csrf
-                                <input type="submit" value="Aceptar paciente" class="btn-aceptar">
+                                <input type="submit" value="Aceptar paciente" class="btn-primario">
                             </form>
                         </div>
 

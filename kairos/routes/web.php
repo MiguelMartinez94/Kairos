@@ -66,10 +66,13 @@ Route::get('/api/mis-citas', [InicioController::class, 'obtenerCitasJson'])->nam
 Route::get('/login/psicologos', [LoginController::class, 'loginPsicologos'])->name('psicologos.login');
 Route::get('/registrar/psicologos', [LoginController::class, 'registroPsicologos'])->name('psicologos.registro');
 
+
 Route::post('/registrar/psicologos', [LoginController::class, 'createRegistroPsicologo'])->name('psicologos.store');
 
 #Ruta para iniciar sesión psicologos
 Route::post('/login/psicologos', [LoginController::class, 'login'])->name('psicologos.login.attempt');
+
+Route::post('/login/logout', [LoginController::class, 'logout'])->name('psicologos.logout');
 
 
 

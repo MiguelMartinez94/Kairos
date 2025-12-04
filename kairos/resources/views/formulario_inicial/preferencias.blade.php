@@ -6,7 +6,7 @@
     <div class="preferencias-card">
         <h1>Paciente: {{$paciente->nombre}}</h1>
 
-        {{-- Manejo de errores --}}
+        
         @if ($errors->any())
             <div style="color: red; margin-bottom: 10px;">
                 <ul>
@@ -54,17 +54,16 @@
     </div>
 </div>
 
-{{-- SCRIPT PARA LA LÓGICA DINÁMICA --}}
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 1. Recibimos los datos del controlador
+        
         const disponibilidad = @json($disponibilidad);
         
         const selectDia = document.getElementById('dia_preferido');
         const selectHora = document.getElementById('horario_preferido');
 
-        // 2. Llenar el select de Días (solo los días que trabaja la psicóloga)
-        // Object.keys obtiene ["Lunes", "Martes", etc.]
+        
         Object.keys(disponibilidad).forEach(dia => {
             let option = document.createElement('option');
             option.value = dia;
@@ -72,21 +71,21 @@
             selectDia.appendChild(option);
         });
 
-        // 3. Evento: Cuando cambia el día, actualizamos las horas
+        
         selectDia.addEventListener('change', function() {
             const diaSeleccionado = this.value;
 
-            // Limpiar horas anteriores
+            
             selectHora.innerHTML = '<option value="">Selecciona una hora</option>';
             
             if (diaSeleccionado && disponibilidad[diaSeleccionado]) {
-                // Habilitar el select
+                
                 selectHora.disabled = false;
 
-                // Llenar con las horas disponibles de ese día
+                
                 disponibilidad[diaSeleccionado].forEach(hora => {
                     let option = document.createElement('option');
-                    // Enviamos formato TIME (HH:MM)
+                    
                     option.value = hora; 
                     option.textContent = hora;
                     selectHora.appendChild(option);

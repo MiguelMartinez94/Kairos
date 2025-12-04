@@ -108,6 +108,31 @@ nav a:hover {
     border-bottom-color: var(--primary);
 }
 
+.nav-link-btn {
+    
+    background: none;
+    border: none;
+    font-family: inherit; 
+    font-size: inherit;
+    cursor: pointer;
+    width: 100%;
+    
+    
+    display: block;
+    padding: 20px 32px;
+    color: var(--text-primary);
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease; 
+}
+
+
+.nav-link-btn:hover {
+    color: var(--primary);
+    background-color: rgba(107, 142, 127, 0.05);
+    border-bottom-color: var(--primary);
+}
+
 /* ============================================
    LOGIN Y REGISTRO
    ============================================ */
@@ -356,9 +381,18 @@ nav a:hover {
 .form-container input[type="number"],
 .form-container input[type="email"],
 .form-container input[type="time"],
+.form-container input[type="date"],
 .form-container select,
+.form-container textarea,
 .preferencias-card input[type="time"],
-.preferencias-card select {
+.preferencias-card select,
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 14px 16px;
     border: 2px solid var(--border);
@@ -370,16 +404,28 @@ nav a:hover {
 
 .form-container input:focus,
 .form-container select:focus,
+.form-container textarea:focus,
 .preferencias-card input:focus,
-.preferencias-card select:focus {
+.preferencias-card select:focus,
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: var(--secondary);
     background: var(--surface);
 }
 
 .form-container select,
-.preferencias-card select {
+.preferencias-card select,
+.form-group select {
     cursor: pointer;
+}
+
+.form-container textarea,
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
 }
 
 .form-container input[type="submit"],
@@ -505,7 +551,7 @@ nav a:hover {
 }
 
 /* ============================================
-   DASHBOARD
+   DASHBOARD, AGENDA Y PACIENTES - HEADERS
    ============================================ */
 .dashboard-container,
 .agenda-container,
@@ -515,6 +561,30 @@ nav a:hover {
     padding: 40px 20px;
 }
 
+.dashboard-header,
+.agenda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-title {
+    color: var(--primary);
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+/* ============================================
+   DASHBOARD Y AGENDA - GRIDS
+   ============================================ */
 .dashboard-grid,
 .agenda-grid {
     display: grid;
@@ -522,8 +592,25 @@ nav a:hover {
     gap: 32px;
 }
 
+.dashboard-main,
+.agenda-main {
+    min-height: 500px;
+}
+
+.dashboard-sidebar,
+.agenda-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ============================================
+   CARDS GENERALES
+   ============================================ */
 .dashboard-card,
-.agenda-card {
+.agenda-card,
+.calendario-card,
+.sidebar-card {
     background: var(--surface);
     border-radius: 12px;
     padding: 32px;
@@ -531,128 +618,338 @@ nav a:hover {
     border: 1px solid var(--border);
 }
 
-.dashboard-card h1,
-.dashboard-card h2,
-.agenda-card h1,
-.agenda-card h2 {
+.card-title,
+.sidebar-title {
     color: var(--primary);
-    margin-bottom: 24px;
+    font-size: 22px;
+    margin-bottom: 20px;
     font-weight: 600;
 }
 
-.dashboard-card h1,
-.agenda-card h1 {
-    font-size: 28px;
+.sidebar-title {
+    font-size: 18px;
+    margin-bottom: 16px;
 }
 
-.dashboard-card h2,
-.agenda-card h2 {
-    font-size: 22px;
-}
-
+/* ============================================
+   CALENDARIO
+   ============================================ */
 .calendario-section {
-    min-height: 400px;
+    min-height: 500px;
 }
 
-.calendario-placeholder,
-.sesiones-list,
-.horarios-list,
-.calendario-container,
-.sesiones-container,
-.horarios-atencion-container {
+.calendario-placeholder {
     background: var(--background);
     border: 2px dashed var(--border);
     border-radius: 8px;
-    padding: 48px 24px;
+    padding: 80px 24px;
     text-align: center;
     color: var(--text-secondary);
-    min-height: 200px;
+    min-height: 400px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.sesiones-sidebar,
-.sidebar-agenda {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.placeholder-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
 }
 
-.sesiones-card,
-.horarios-card {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 28px;
-    box-shadow: 0 2px 8px var(--shadow);
-    border: 1px solid var(--border);
+.calendario-placeholder p {
+    margin: 0;
 }
 
 /* ============================================
-   AGENDA - BOTONES
+   SESIONES PRÓXIMAS (SIDEBAR)
    ============================================ */
-.horarios-button {
+.sesiones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sesion-preview-card {
+    background: var(--background);
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.sesion-preview-card:hover {
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.paciente-avatar-small {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sesion-info-preview {
+    flex: 1;
+}
+
+.paciente-nombre-small {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 6px 0;
+}
+
+.sesion-detalles-small {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.sesion-dia,
+.sesion-hora {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin: 0;
+}
+
+.sesion-dia {
+    font-weight: 600;
+}
+
+.sesiones-empty-small {
+    background: var(--background);
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 8px;
+    border: 2px dashed var(--border);
+}
+
+.empty-icon-small {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+}
+
+.sesiones-empty-small p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ============================================
+   HORARIOS DE ATENCIÓN (AGENDA)
+   ============================================ */
+.horarios-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.horario-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--background);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.horario-item.activo {
+    border-left: 3px solid var(--primary);
+}
+
+.horario-item.inactivo {
+    opacity: 0.6;
+    border-left: 3px solid var(--border);
+}
+
+.horario-dia {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dia-badge {
+    background-color: var(--primary);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.dia-completo {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.horario-horas {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.hora-inicio,
+.hora-fin {
+    font-weight: 600;
+}
+
+.separador {
+    color: var(--text-secondary);
+}
+
+.no-disponible {
+    color: var(--error);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* ============================================
+   BOTÓN CONFIGURAR HORARIOS
+   ============================================ */
+.btn-config-horarios {
     background-color: var(--secondary);
     color: white;
     border: none;
-    padding: 14px 32px;
+    padding: 14px 28px;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.horarios-button:hover {
+.btn-config-horarios:hover {
     background-color: var(--accent);
 }
 
-.horarios-config {
+.btn-icon {
+    font-size: 18px;
+}
+
+/* ============================================
+   MODAL HORARIOS
+   ============================================ */
+.modal-horarios {
+    max-width: 900px;
+}
+
+.horarios-config-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.dia-config-card {
     background: var(--background);
     border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 32px;
+    padding: 20px;
     border: 1px solid var(--border);
 }
 
-.modal-buttons {
+.form-horario {
     display: flex;
+    flex-direction: column;
     gap: 16px;
+}
+
+.dia-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+.dia-nombre {
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.estado-toggle {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.radio-text {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.radio-text.activo {
+    color: var(--success);
+}
+
+.radio-text.inactivo {
+    color: var(--error);
+}
+
+.horarios-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.form-actions-inline {
+    display: flex;
     justify-content: flex-end;
 }
 
-.modal-buttons button {
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 15px;
+.btn-guardar-small {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
 }
 
-.btn-guardar {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-}
-
-.btn-guardar:hover {
+.btn-guardar-small:hover {
     background-color: var(--primary-dark);
 }
 
-.btn-cerrar {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 2px solid var(--border);
-}
-
-.btn-cerrar:hover {
-    background: var(--background);
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
 /* ============================================
-   PACIENTES
+   PACIENTES - TABS
    ============================================ */
 .tabs-nav {
     display: flex;
@@ -691,6 +988,9 @@ nav a:hover {
     color: white;
 }
 
+/* ============================================
+   PACIENTES - GRID Y CARDS
+   ============================================ */
 .pacientes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -768,14 +1068,14 @@ nav a:hover {
 }
 
 /* ============================================
-   MODALES
+   MODALES BASE
    ============================================ */
 dialog {
     border: none;
     border-radius: 12px;
     padding: 0;
     box-shadow: 0 8px 24px var(--shadow);
-    max-width: 800px;
+    max-width: 900px;
     width: 90%;
 }
 
@@ -797,6 +1097,28 @@ dialog::backdrop {
     margin: -40px -40px 32px -40px;
 }
 
+.modal-header-tabs {
+    background-color: var(--primary);
+    color: white;
+    padding: 24px 32px;
+    border-radius: 12px 12px 0 0;
+    margin: -40px -40px 32px -40px;
+}
+
+.modal-titulo {
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+}
+
+.modal-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    margin: 8px 0 0 0;
+    font-weight: 400;
+}
+
 .modal-pendiente .modal-header {
     background-color: var(--secondary);
 }
@@ -808,34 +1130,104 @@ dialog::backdrop {
     color: white;
 }
 
-.modal-content h2 {
-    color: var(--primary);
-    font-size: 26px;
-    margin-bottom: 32px;
-    font-weight: 600;
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 2px solid var(--border);
 }
 
+/* ============================================
+   TABS DENTRO DEL MODAL
+   ============================================ */
+.tabs-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    padding-top: 16px;
+}
+
+.tab-button {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.tab-button.active {
+    background: white;
+    color: var(--primary);
+}
+
+.tab-icon {
+    font-size: 16px;
+}
+
+.tab-text {
+    font-size: 14px;
+}
+
+.tabs-content-wrapper {
+    min-height: 400px;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ============================================
+   SECCIONES DE DATOS
+   ============================================ */
 .datos-section {
     margin-bottom: 32px;
 }
 
-.datos-section h2 {
+.section-title,
+.subsection-title {
     color: var(--primary);
     font-size: 20px;
     margin-bottom: 20px;
-    padding-bottom: 8px;
+    padding-bottom: 12px;
     border-bottom: 2px solid var(--border);
+    font-weight: 700;
+}
+
+.subsection-title {
+    font-size: 18px;
+    margin-top: 24px;
 }
 
 .datos-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
 }
 
 .dato-item {
     background: var(--background);
-    padding: 12px;
+    padding: 14px;
     border-radius: 8px;
     border-left: 3px solid var(--primary);
 }
@@ -843,18 +1235,86 @@ dialog::backdrop {
 .dato-item label {
     display: block;
     color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .dato-item p {
     color: var(--text-primary);
     font-size: 15px;
     margin: 0;
+    font-weight: 500;
 }
 
+/* ============================================
+   OBSERVACIONES
+   ============================================ */
+.observaciones-section {
+    margin-top: 24px;
+}
+
+.observaciones-content {
+    background: var(--background);
+    padding: 16px;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.observaciones-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ============================================
+   ESTADOS VACÍOS CLÍNICOS
+   ============================================ */
+.clinicos-empty-state {
+    background: var(--background);
+    padding: 40px 24px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px dashed var(--border);
+}
+
+.empty-message {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.btn-agregar-clinicos {
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-agregar-clinicos:hover {
+    background-color: var(--accent);
+}
+
+/* ============================================
+   FORMULARIOS CLÍNICOS
+   ============================================ */
+.form-clinicos-wrapper {
+    margin-top: 20px;
+}
+
+.form-clinicos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ============================================
+   PREFERENCIAS INFO
+   ============================================ */
 .preferencias-info {
     background-color: rgba(212, 165, 116, 0.1);
     padding: 20px;
@@ -900,99 +1360,315 @@ dialog::backdrop {
     font-weight: 500;
 }
 
-.modal-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
+/* ============================================
+   SECCIÓN DE SESIONES
+   ============================================ */
+.sesiones-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
 }
 
-.modal-actions button,
-.modal-actions input[type="submit"] {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-cerrar-modal,
-.btn-mantener {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 2px solid var(--border) !important;
-}
-
-.btn-cerrar-modal:hover,
-.btn-mantener:hover {
+.sesiones-sidebar {
     background: var(--background);
-    border-color: var(--primary) !important;
-    color: var(--primary);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border);
 }
 
-.btn-modificar {
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.sidebar-title {
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.btn-nuevo-small {
     background-color: var(--secondary);
     color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
-.btn-modificar:hover {
+.btn-nuevo-small:hover {
     background-color: var(--accent);
 }
 
-.btn-eliminar {
-    background-color: var(--error);
+.sesiones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sesion-card {
+    background: var(--surface);
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.sesion-card:hover {
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.sesion-badge {
+    background-color: var(--primary);
     color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
-.btn-eliminar:hover {
-    background-color: #C56F6F;
+.sesion-preview {
+    flex: 1;
 }
 
-.btn-aceptar {
-    background-color: var(--success);
-    color: white;
+.sesion-fecha {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 13px;
+    margin: 0 0 4px 0;
 }
 
-.btn-aceptar:hover {
-    background-color: #6F956F;
+.sesion-duracion {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin: 0;
 }
 
-.modal-edit form {
+.sesiones-lista-empty {
+    text-align: center;
+    padding: 40px 16px;
+    color: var(--text-secondary);
+}
+
+.sesiones-lista-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ============================================
+   MAIN SESIONES
+   ============================================ */
+.sesiones-main {
+    background: var(--background);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    min-height: 400px;
+}
+
+.sesion-detalle-view {
+    display: block;
+}
+
+.detalle-header {
+    margin-bottom: 24px;
+}
+
+.detalle-titulo {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.detalle-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.info-box {
+    background: var(--surface);
+    padding: 14px;
+    border-radius: 8px;
+    border-left: 3px solid var(--secondary);
+}
+
+.info-box label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.info-box p {
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.detalle-notas-section {
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.notas-titulo {
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+}
+
+.notas-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.sesion-detalle-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    color: var(--text-secondary);
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+}
+
+.sesion-detalle-empty p {
+    margin: 0;
+}
+
+/* ============================================
+   FORMULARIO NUEVA SESIÓN
+   ============================================ */
+.form-sesion-view {
+    display: none;
+}
+
+.form-header {
+    margin-bottom: 24px;
+}
+
+.form-titulo {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.form-sesion {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.modal-edit label {
-    color: var(--text-primary);
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
-    font-size: 14px;
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
 }
 
-.modal-edit input,
-.modal-edit select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
+/* ============================================
+   MODAL EDITAR
+   ============================================ */
+.modal-edit .modal-header {
+    background-color: var(--secondary);
+}
+
+.form-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.btn-primario {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 28px;
     border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
     font-size: 15px;
+}
+
+.btn-primario:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secundario {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-secundario:hover {
     background: var(--background);
-}
-
-.modal-edit input:focus,
-.modal-edit select:focus {
-    outline: none;
     border-color: var(--primary);
-    background: var(--surface);
+    color: var(--primary);
 }
 
+.btn-danger {
+    background-color: var(--error);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-danger:hover {
+    background-color: #C56F6F;
+}
+
+/* ============================================
+   ESTADO VACÍO GENERAL
+   ============================================ */
 .empty-state {
     text-align: center;
     padding: 80px 20px;
     color: var(--text-secondary);
     grid-column: 1 / -1;
+    background: var(--background);
+    border-radius: 12px;
+    border: 2px dashed var(--border);
 }
 
 .empty-state::before {
@@ -1001,6 +1677,11 @@ dialog::backdrop {
     font-size: 64px;
     margin-bottom: 16px;
     opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 16px;
 }
 
 /* ============================================
@@ -1032,8 +1713,8 @@ dialog::backdrop {
         grid-template-columns: 1fr;
     }
 
-    .sesiones-sidebar,
-    .sidebar-agenda {
+    .dashboard-sidebar,
+    .agenda-sidebar {
         grid-template-columns: repeat(2, 1fr);
         display: grid;
     }
@@ -1047,12 +1728,25 @@ dialog::backdrop {
         order: -1;
     }
 
-    .datos-grid {
+    .datos-grid,
+    .detalle-info-grid {
         grid-template-columns: 1fr;
     }
 
     .pacientes-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .sesiones-container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .horarios-inputs {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1088,6 +1782,18 @@ dialog::backdrop {
         max-width: none;
     }
 
+    .dashboard-header,
+    .agenda-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .btn-config-horarios {
+        width: 100%;
+        justify-content: center;
+    }
+
     .login-card,
     .registro-card,
     .preferencias-card {
@@ -1115,17 +1821,15 @@ dialog::backdrop {
     }
 
     .dashboard-card,
-    .agenda-card {
+    .agenda-card,
+    .calendario-card,
+    .sidebar-card {
         padding: 24px;
     }
 
-    .sesiones-sidebar,
-    .sidebar-agenda {
+    .dashboard-sidebar,
+    .agenda-sidebar {
         grid-template-columns: 1fr;
-    }
-
-    .horarios-button {
-        width: 100%;
     }
 
     .tabs-nav {
@@ -1140,34 +1844,47 @@ dialog::backdrop {
         padding: 28px 24px;
     }
 
-    .modal-header {
+    .modal-header,
+    .modal-header-tabs {
         padding: 20px 24px;
         margin: -28px -24px 24px -24px;
     }
 
-    .modal-buttons {
-        flex-direction: column-reverse;
-    }
-
-    .modal-buttons button {
-        width: 100%;
-    }
-
-    .modal-actions {
+    .tabs-container {
         flex-direction: column;
     }
 
-    .modal-actions button,
-    .modal-actions input[type="submit"] {
+    .tab-button {
+        width: 100%;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-footer button,
+    .modal-footer input[type="submit"] {
         width: 100%;
     }
 
     .preferencias-grid {
         grid-template-columns: 1fr;
     }
+
+    dialog {
+        max-width: 95%;
+    }
+
+    .horarios-inputs {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
+    .page-title {
+        font-size: 26px;
+    }
+
     .login-card,
     .registro-card,
     .preferencias-card {
@@ -1187,7 +1904,9 @@ dialog::backdrop {
     }
 
     .dashboard-card,
-    .agenda-card {
+    .agenda-card,
+    .calendario-card,
+    .sidebar-card {
         padding: 20px 16px;
     }
 
@@ -1210,7 +1929,8 @@ dialog::backdrop {
         padding: 24px 20px;
     }
 
-    .modal-header {
+    .modal-header,
+    .modal-header-tabs {
         padding: 16px 20px;
         margin: -24px -20px 20px -20px;
     }
@@ -1225,683 +1945,33 @@ dialog::backdrop {
         font-size: 20px;
     }
 
-    /* Agregar al final del archivo app.css */
-
-/* ============================================
-   TABS DENTRO DEL MODAL
-   ============================================ */
-.modal-tabs-nav {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.tab-link {
-    padding: 12px 20px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.tab-link:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.tab-link.active {
-    color: white;
-    border-bottom-color: white;
-    font-weight: 700;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active-tab {
-    display: block;
-}
-
-/* ============================================
-   FORMULARIO CLÍNICOS
-   ============================================ */
-.form-clinicos-container {
-    background: var(--background);
-    padding: 24px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.form-clinicos {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-clinicos textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-size: 15px;
-    background: var(--surface);
-    resize: vertical;
-    min-height: 120px;
-}
-
-.form-clinicos textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 12px;
-}
-
-.observaciones-text {
-    background: var(--background);
-    padding: 16px;
-    border-radius: 8px;
-    border-left: 3px solid var(--primary);
-}
-
-.observaciones-text p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* ============================================
-   SECCIÓN DE SESIONES
-   ============================================ */
-.sesiones-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-.btn-nueva-sesion {
-    background-color: var(--secondary);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-nueva-sesion:hover {
-    background-color: var(--accent);
-}
-
-.sesiones-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 24px;
-}
-
-.lista-sesiones {
-    background: var(--background);
-    border-radius: 8px;
-    padding: 20px;
-    border: 1px solid var(--border);
-}
-
-.lista-sesiones h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 16px;
-    font-weight: 600;
-}
-
-.sesiones-lista-items {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.sesion-item {
-    background: var(--surface);
-    padding: 14px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
-
-.sesion-item:hover {
-    border-color: var(--primary);
-    transform: translateX(4px);
-}
-
-.sesion-numero {
-    background-color: var(--primary);
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.sesion-info {
-    flex: 1;
-}
-
-.sesion-info p {
-    margin: 2px 0;
-    font-size: 14px;
-}
-
-.sesion-duracion {
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-.sesion-fecha {
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-
-.sesiones-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-secondary);
-}
-
-/* ============================================
-   DETALLE DE SESIÓN
-   ============================================ */
-.detalle-sesion-container {
-    background: var(--background);
-    border-radius: 8px;
-    padding: 20px;
-    border: 1px solid var(--border);
-}
-
-.detalle-sesion {
-    display: block;
-}
-
-.detalle-sesion h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.sesion-detalles-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    gap: 20px;
-}
-
-.sesion-detalle-item {
-    background: var(--surface);
-    padding: 12px;
-    border-radius: 8px;
-    flex: 1;
-    border-left: 3px solid var(--secondary);
-}
-
-.sesion-detalle-item label {
-    display: block;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.sesion-detalle-item p {
-    color: var(--text-primary);
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.sesion-notas {
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 16px;
-    min-height: 150px;
-    border: 1px solid var(--border);
-}
-
-.sesion-notas h4 {
-    color: var(--primary);
-    font-size: 16px;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-
-.sesion-notas p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* ============================================
-   FORMULARIO NUEVA SESIÓN
-   ============================================ */
-.form-nueva-sesion {
-    display: none;
-}
-
-.form-nueva-sesion h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.form-nueva-sesion form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-nueva-sesion textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-size: 15px;
-    background: var(--surface);
-    resize: vertical;
-    min-height: 120px;
-}
-
-.form-nueva-sesion textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--surface);
-}
-
-/* ============================================
-   RESPONSIVE PARA NUEVAS SECCIONES
-   ============================================ */
-@media (max-width: 768px) {
-    .sesiones-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .sesion-detalles-header {
+    .tab-button {
         flex-direction: column;
+        gap: 4px;
+        padding: 10px;
     }
 
-    .modal-tabs-nav {
-        gap: 8px;
+    .tab-icon {
+        font-size: 20px;
     }
 
-    .tab-link {
-        padding: 10px 16px;
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sesion-item {
-        padding: 12px;
+    .tab-text {
+        font-size: 12px;
     }
 
-    .sesion-numero {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
-    }
-}
-
-/* Agregar al final del archivo app.css */
-
-/* ============================================
-   TABS DENTRO DEL MODAL
-   ============================================ */
-.modal-tabs-nav {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.tab-link {
-    padding: 12px 20px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.tab-link:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.tab-link.active {
-    color: white;
-    border-bottom-color: white;
-    font-weight: 700;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active-tab {
-    display: block;
-}
-
-/* ============================================
-   FORMULARIO CLÍNICOS
-   ============================================ */
-.form-clinicos-container {
-    background: var(--background);
-    padding: 24px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.form-clinicos {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-clinicos textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-size: 15px;
-    background: var(--surface);
-    resize: vertical;
-    min-height: 120px;
-}
-
-.form-clinicos textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 12px;
-}
-
-.observaciones-text {
-    background: var(--background);
-    padding: 16px;
-    border-radius: 8px;
-    border-left: 3px solid var(--primary);
-}
-
-.observaciones-text p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* ============================================
-   SECCIÓN DE SESIONES
-   ============================================ */
-.sesiones-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-.btn-nueva-sesion {
-    background-color: var(--secondary);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-nueva-sesion:hover {
-    background-color: var(--accent);
-}
-
-.sesiones-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 24px;
-}
-
-.lista-sesiones {
-    background: var(--background);
-    border-radius: 8px;
-    padding: 20px;
-    border: 1px solid var(--border);
-}
-
-.lista-sesiones h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 16px;
-    font-weight: 600;
-}
-
-.sesiones-lista-items {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.sesion-item {
-    background: var(--surface);
-    padding: 14px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
-
-.sesion-item:hover {
-    border-color: var(--primary);
-    transform: translateX(4px);
-}
-
-.sesion-numero {
-    background-color: var(--primary);
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.sesion-info {
-    flex: 1;
-}
-
-.sesion-info p {
-    margin: 2px 0;
-    font-size: 14px;
-}
-
-.sesion-duracion {
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-.sesion-fecha {
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-
-.sesiones-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-secondary);
-}
-
-/* ============================================
-   DETALLE DE SESIÓN
-   ============================================ */
-.detalle-sesion-container {
-    background: var(--background);
-    border-radius: 8px;
-    padding: 20px;
-    border: 1px solid var(--border);
-}
-
-.detalle-sesion {
-    display: block;
-}
-
-.detalle-sesion h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.sesion-detalles-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    gap: 20px;
-}
-
-.sesion-detalle-item {
-    background: var(--surface);
-    padding: 12px;
-    border-radius: 8px;
-    flex: 1;
-    border-left: 3px solid var(--secondary);
-}
-
-.sesion-detalle-item label {
-    display: block;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.sesion-detalle-item p {
-    color: var(--text-primary);
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.sesion-notas {
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 16px;
-    min-height: 150px;
-    border: 1px solid var(--border);
-}
-
-.sesion-notas h4 {
-    color: var(--primary);
-    font-size: 16px;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-
-.sesion-notas p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* ============================================
-   FORMULARIO NUEVA SESIÓN
-   ============================================ */
-.form-nueva-sesion {
-    display: none;
-}
-
-.form-nueva-sesion h3 {
-    color: var(--primary);
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.form-nueva-sesion form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-nueva-sesion textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-size: 15px;
-    background: var(--surface);
-    resize: vertical;
-    min-height: 120px;
-}
-
-.form-nueva-sesion textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--surface);
-}
-
-/* ============================================
-   RESPONSIVE PARA NUEVAS SECCIONES
-   ============================================ */
-@media (max-width: 768px) {
-    .sesiones-grid {
-        grid-template-columns: 1fr;
+    .sesiones-main {
+        padding: 16px;
     }
 
-    .sesion-detalles-header {
-        flex-direction: column;
+    .horarios-config-wrapper {
+        max-height: 400px;
     }
 
-    .modal-tabs-nav {
-        gap: 8px;
+    .dia-config-card {
+        padding: 16px;
     }
 
-    .tab-link {
-        padding: 10px 16px;
-        font-size: 14px;
+    .btn-config-horarios span:last-child {
+        display: none;
     }
-}
-
-@media (max-width: 480px) {
-    .sesion-item {
-        padding: 12px;
-    }
-
-    .sesion-numero {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
-    }
-}
 }

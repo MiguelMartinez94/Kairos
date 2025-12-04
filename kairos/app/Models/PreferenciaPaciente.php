@@ -19,9 +19,9 @@ class PreferenciaPaciente extends Model
         'tipo_sesion'
     ];
 
-    public function paciente(): BelongsTo //
+    public function paciente(): BelongsTo 
     {
-        return $this->belongsTo(Paciente::class); //
+        return $this->belongsTo(Paciente::class); 
     }
 
 }

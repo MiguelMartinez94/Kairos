@@ -38,11 +38,11 @@
                         
                         <div class="tabs-container">
                             <button type="button" class="tab-button active" onclick="openTab(event, 'general-{{$paciente->id}}')">
-                                <span class="tab-icon">📋</span>
+                                
                                 <span class="tab-text">Información General</span>
                             </button>
                             <button type="button" class="tab-button" onclick="openTab(event, 'sesiones-{{$paciente->id}}')">
-                                <span class="tab-icon">📅</span>
+                                
                                 <span class="tab-text">Historial de Sesiones</span>
                             </button>
                         </div>
@@ -50,7 +50,6 @@
 
                     <div class="tabs-content-wrapper">
                         
-                        <!-- TAB 1: INFORMACIÓN GENERAL -->
                         <div id="general-{{$paciente->id}}" class="tab-panel active">
                             
                             <div class="datos-section">
@@ -82,7 +81,11 @@
                             <div class="datos-section">
                                 <h3 class="section-title">Datos Clínicos</h3>
                                 
-                                @forelse ($clinicos as $clinico)
+                                @php
+                                    $misDatosClinicos = $clinicos->where('paciente_id', $paciente->id);
+                                @endphp
+
+                                @forelse ($misDatosClinicos as $clinico)
                                     
                                     <div class="datos-grid">
                                         <div class="dato-item">
@@ -118,35 +121,35 @@
                                     </div>
 
                                     <div id="form-clinico-{{$paciente->id}}" class="form-clinicos-wrapper" style="display: none;">
-                                        <form action="{{route('store.clinicos', $paciente->id)}}" method="POST" class="form-clinicos">
-                                            @csrf
-                                            <input type="hidden" name="paciente_id" value="{{$paciente->id}}">
+                                            <form action="{{route('store.clinicos', $paciente->id)}}" method="POST" class="form-clinicos">
+                                                @csrf
+                                                <input type="hidden" name="paciente_id" value="{{$paciente->id}}">
 
-                                            <div class="form-group">
-                                                <label>Fecha de inicio</label>
-                                                <input type="date" name="fecha_inicio">
-                                            </div>
+                                                <div class="form-group">
+                                                    <label>Fecha de inicio</label>
+                                                    <input type="date" name="fecha_inicio">
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label>Diagnóstico</label>
-                                                <input type="text" name="diagnostico" placeholder="Ingrese el diagnóstico">
-                                            </div>
+                                                <div class="form-group">
+                                                    <label>Diagnóstico</label>
+                                                    <input type="text" name="diagnostico" placeholder="Ingrese el diagnóstico">
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label>Tratamiento</label>
-                                                <input type="text" name="tratamiento" placeholder="Ingrese el tratamiento">
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label>Observaciones</label>
-                                                <textarea name="observaciones" rows="6" placeholder="Observaciones adicionales..."></textarea>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label>Tratamiento</label>
+                                                    <input type="text" name="tratamiento" placeholder="Ingrese el tratamiento">
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label>Observaciones</label>
+                                                    <textarea name="observaciones" rows="6" placeholder="Observaciones adicionales..."></textarea>
+                                                </div>
 
-                                            <div class="form-actions">
-                                                <button type="button" class="btn-secundario" onclick="ocultarFormClinico('{{$paciente->id}}')">Cancelar</button>
-                                                <button type="submit" class="btn-primario">Guardar</button>
-                                            </div>
-                                        </form>
+                                                <div class="form-actions">
+                                                    <button type="button" class="btn-secundario" onclick="ocultarFormClinico('{{$paciente->id}}')">Cancelar</button>
+                                                    <button type="submit" class="btn-primario">Guardar</button>
+                                                </div>
+                                            </form>
                                     </div>
 
                                 @endforelse
@@ -163,7 +166,6 @@
                             </div>
                         </div>
 
-                        <!-- TAB 2: HISTORIAL DE SESIONES -->
                         <div id="sesiones-{{$paciente->id}}" class="tab-panel">
                             
                             <div class="sesiones-container">
@@ -177,101 +179,105 @@
                                     </div>
                                     
                                     <div class="sesiones-lista">
-                                        @forelse ($sesiones as $index => $sesion)
+                                            @php
+                                                $misSesiones = isset($sesiones) ? $sesiones->where('paciente_id', $paciente->id) : collect([]);
+                                            @endphp
+
+                                            @forelse ($misSesiones as $index => $sesion)
                                             
                                             <div class="sesion-card" onclick="mostrarDetalleSesion('{{$paciente->id}}', '{{$sesion->id}}')">
-                                                <div class="sesion-badge">{{$index + 1}}</div>
+                                                <div class="sesion-badge">{{$loop->iteration}}</div>
                                                 <div class="sesion-preview">
                                                     <p class="sesion-fecha">{{$sesion->fecha_sesion}}</p>
                                                     <p class="sesion-duracion">{{$sesion->duracion}} min</p>
                                                 </div>
                                             </div>
 
-                                        @empty
-                                        
-                                            <div class="sesiones-lista-empty">
-                                                <p>No hay sesiones registradas</p>
-                                            </div>
-                                        
-                                        @endforelse
+                                            @empty
+                                            
+                                                <div class="sesiones-lista-empty">
+                                                    <p>No hay sesiones registradas</p>
+                                                </div>
+                                            
+                                            @endforelse
                                     </div>
                                 </div>
 
                                 <div class="sesiones-main">
                                     
                                     <div id="detalle-sesion-{{$paciente->id}}" class="sesion-detalle-view">
-                                        
-                                        @forelse ($sesiones as $sesion)
                                             
-                                            <div class="detalle-header">
-                                                <h3 class="detalle-titulo">Detalles de la Sesión</h3>
+                                            @forelse ($misSesiones as $sesion)
+                                            
+                                            
+                                            <div id="info-sesion-{{$sesion->id}}" class="detalle-item" style="display: none;">
+                                                <div class="detalle-header">
+                                                    <h3 class="detalle-titulo">Detalles de la Sesión</h3>
+                                                </div>
+
+                                                <div class="detalle-info-grid">
+                                                    <div class="info-box">
+                                                        <label>Fecha</label>
+                                                        <p>{{$sesion->fecha_sesion}}</p>
+                                                    </div>
+                                                    <div class="info-box">
+                                                        <label>Duración</label>
+                                                        <p>{{$sesion->duracion}} minutos</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="detalle-notas-section">
+                                                    <h4 class="notas-titulo">Notas de la Sesión</h4>
+                                                    <div class="notas-content">
+                                                        <p>{{$sesion->notas}}</p>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="detalle-info-grid">
-                                                <div class="info-box">
-                                                    <label>Fecha</label>
-                                                    <p>{{$sesion->fecha_sesion}}</p>
-                                                </div>
-                                                <div class="info-box">
-                                                    <label>Duración</label>
-                                                    <p>{{$sesion->duracion}} minutos</p>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="detalle-notas-section">
-                                                <h4 class="notas-titulo">Notas de la Sesión</h4>
-                                                <div class="notas-content">
-                                                    <p>{{$sesion->notas}}</p>
-                                                </div>
-                                            </div>
+                                            @empty
+                                                <p>No hay sesiones por el momento...</p>
+                                            @endforelse
 
-                                        @empty
-                                        
-                                            <div class="sesion-detalle-empty">
-                                                <div class="empty-icon">📝</div>
+                                            
+                                            <div id="mensaje-seleccionar-{{$paciente->id}}" class="sesion-detalle-empty">
+                                                
                                                 <p>Selecciona una sesión para ver sus detalles</p>
                                             </div>
-                                        
-                                        @endforelse
                                     </div>
 
                                     <div id="form-sesion-{{$paciente->id}}" class="form-sesion-view" style="display: none;">
-                                        
-                                        <div class="form-header">
-                                            <h3 class="form-titulo">Nueva Sesión - {{$paciente->nombre}}</h3>
-                                        </div>
-                                    
-                                        <form action="{{route('sesion.store')}}" method="POST" class="form-sesion">
-                                            @csrf
-
-                                            @foreach ($psicologos as $psicologo)
-                                                <input type="hidden" name="psicologo_id" value="{{$psicologo->id}}">
-                                            @endforeach
                                             
-                                            <input type="hidden" name="paciente_id" value="{{$paciente->id}}">
+                                            <div class="form-header">
+                                                <h3 class="form-titulo">Nueva Sesión - {{$paciente->nombre}}</h3>
+                                            </div>
+                                    
+                                            <form action="{{route('sesion.store')}}" method="POST" class="form-sesion">
+                                                @csrf
+                                                <input type="hidden" name="psicologo_id" value="{{ auth('psicologos')->id() }}">
+                                                <input type="hidden" name="paciente_id" value="{{$paciente->id}}">
 
-                                            <div class="form-row">
-                                                <div class="form-group">
-                                                    <label>Fecha de la sesión</label>
-                                                    <input type="date" name="fecha_sesion">
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label>Fecha de la sesión</label>
+                                                        <input type="date" name="fecha_sesion">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Duración (minutos)</label>
+                                                        <input type="number" step="1" max="120" name="duracion" placeholder="60">
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Duración (minutos)</label>
-                                                    <input type="number" step="1" max="120" name="duracion" placeholder="60">
+                                                    <label>Notas de la sesión</label>
+                                                    <textarea name="notas" rows="8" placeholder="Escribe las notas de la sesión..."></textarea>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <label>Notas de la sesión</label>
-                                                <textarea name="notas" rows="8" placeholder="Escribe las notas de la sesión..."></textarea>
-                                            </div>
-
-                                            <div class="form-actions">
-                                                <button type="button" class="btn-secundario" onclick="cancelarNuevaSesion('{{$paciente->id}}')">Cancelar</button>
-                                                <button type="submit" class="btn-primario">Guardar Sesión</button>
-                                            </div>
-                                        </form>
+                                                <div class="form-actions">
+                                                    <button type="button" class="btn-secundario" onclick="cancelarNuevaSesion('{{$paciente->id}}')">Cancelar</button>
+                                                    <button type="submit" class="btn-primario">Guardar Sesión</button>
+                                                </div>
+                                            </form>
                                     </div>
 
                                 </div>
@@ -416,19 +422,51 @@
     }
 
     function mostrarFormularioSesion(idPaciente) {
+        
         document.getElementById('detalle-sesion-' + idPaciente).style.display = 'none';
+        
+        
         document.getElementById('form-sesion-' + idPaciente).style.display = 'block';
     }
 
     function cancelarNuevaSesion(idPaciente) {
+        
         document.getElementById('form-sesion-' + idPaciente).style.display = 'none';
+        
+        
         document.getElementById('detalle-sesion-' + idPaciente).style.display = 'block';
+        
+        
+        const msg = document.getElementById('mensaje-seleccionar-' + idPaciente);
+        if(msg) msg.style.display = 'block';
+        
+        
+        const container = document.getElementById('detalle-sesion-' + idPaciente);
+        const allItems = container.querySelectorAll('.detalle-item');
+        allItems.forEach(item => item.style.display = 'none');
     }
 
     function mostrarDetalleSesion(idPaciente, idSesion) {
+        
         document.getElementById('form-sesion-' + idPaciente).style.display = 'none';
-        document.getElementById('detalle-sesion-' + idPaciente).style.display = 'block';
-        console.log("Cargando sesión " + idSesion + " del paciente " + idPaciente);
+        
+        
+        const container = document.getElementById('detalle-sesion-' + idPaciente);
+        container.style.display = 'block';
+
+        
+        const msg = document.getElementById('mensaje-seleccionar-' + idPaciente);
+        if(msg) msg.style.display = 'none';
+
+        
+        const allItems = container.querySelectorAll('.detalle-item');
+        allItems.forEach(item => item.style.display = 'none');
+
+        
+        const target = document.getElementById('info-sesion-' + idSesion);
+        if(target) target.style.display = 'block';
+        
+        console.log("Mostrando sesión " + idSesion);
     }
 </script>
 

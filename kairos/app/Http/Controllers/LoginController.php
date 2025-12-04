@@ -47,11 +47,20 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             
-            return redirect()->intended(route('pacientes.activos'))->with('success', '¡Bienvenido!');
+            return redirect()->intended(route('psicologos.inicio'))->with('success', '¡Bienvenido!');
         }
 
         return redirect()->route('psicologos.login')->with('danger', 'No se pudo iniciar sesión');
         
+    }
+
+    public function logout(Request $request)
+    {
+        
+        Auth::guard('psicologos')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('psicologos.login');
     }
 }
 
