@@ -72,12 +72,12 @@
                             <div class="preferencias-grid">
                                 <div class="preferencia-item">
                                     <label>Día solicitado</label>
-                                    <p>{{$paciente->preferencia->dia_preferido}}</p>
+                                    <p>{{$paciente->preferencia?->dia_preferido ?? 'Sin definir'}}</p>
                                 </div>
 
                                 <div class="preferencia-item">
                                     <label>Horario solicitado</label>
-                                    <p>{{$paciente->preferencia->horario_preferido}}</p>
+                                    <p>{{$paciente->preferencia?->horario_preferido ?? 'Sin definir'}}</p>
                                 </div>
                             </div>
                         </div>

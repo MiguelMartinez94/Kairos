@@ -11,7 +11,7 @@
     
     <div class="dashboard-header">
         <h1 class="page-title">Inicio</h1>
-        <p class="page-subtitle">Bienvenido a tu panel de control</p>
+        
     </div>
 
     <div class="dashboard-grid">
